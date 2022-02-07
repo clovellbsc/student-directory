@@ -11,9 +11,15 @@ def input_students
   
   while !name.empty? do
     if cohort.empty? 
+<<<<<<< HEAD
       students << {name: name, cohort: :november}
     else 
       students << {name: name, cohort: cohort}
+=======
+      students << {name: name, cohort: cohort}
+    else 
+      students << {name: name, cohort: :november}
+>>>>>>> 518c3b4b508bb93581b3f4e15e3d0c8807b8df7d
     end
     puts "Now we have #{students.count} students"
     puts "Name"
