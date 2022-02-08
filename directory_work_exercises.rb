@@ -10,6 +10,14 @@ def input_students
   
   
   while !name.empty? do
+    puts "Have you correctly inputted your name and cohort? name: '#{name}' cohort: '#{cohort}' (type 'yes' or 'no')"
+    yes_or_no = gets.chomp
+    if yes_or_no == "no"
+      puts "Re-type the name"
+      name = gets.chomp
+      puts "Re-type the cohort"
+      cohort = gets.chomp
+    end
     if cohort.empty?
       students << {name: name, cohort: :november}
     else 
