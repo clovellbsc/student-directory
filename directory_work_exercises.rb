@@ -7,21 +7,20 @@ def input_students
   puts "Please enter their cohort"
   cohort = gets.chomp.to_sym
   
-  puts "To finish, just hit return twice"
+  
   
   while !name.empty? do
-    if cohort.empty? 
-<<<<<<< HEAD
+    if cohort.empty?
       students << {name: name, cohort: :november}
     else 
       students << {name: name, cohort: cohort}
-=======
-      students << {name: name, cohort: cohort}
-    else 
-      students << {name: name, cohort: :november}
->>>>>>> 518c3b4b508bb93581b3f4e15e3d0c8807b8df7d
     end
-    puts "Now we have #{students.count} students"
+    if students.length == 1
+      puts "Now we have 1 student"
+    else
+      puts "Now we have #{students.count} students"
+    end
+    puts "To finish, just hit return twice" 
     puts "Name"
     name = gets.chomp
     puts "Cohort"
@@ -44,7 +43,11 @@ def print(students)
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  if students.count == 1
+    puts "Overall, we have 1 great student"
+  else
+    puts "Overall, we have #{students.count} great students"
+  end
 end
 
 students = input_students
