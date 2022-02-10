@@ -1,15 +1,28 @@
 @students = []
 
-def input_students
+def hash_into_students(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
+end
+
+def input_name
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   
   name = STDIN.gets.chomp
-  
+end 
+
+def input_cohort(name)
+  puts "Please enter the cohort of #{name}"
+  cohort = STDIN.gets.chomp
+end
+
+def adding_students
+  name = input_name
   while !name.empty? do
-    @students << {name: name, cohort: :november}
+    cohort = input_cohort(name)
+    hash_into_students(name, cohort)
     puts "Now we have #{@students.count} students"
-    name = STDIN.gets.chomp
+    name = input_name
   end
 end
 
@@ -48,7 +61,7 @@ def load_students(filename = "students.csv")
   file = File.open("students.csv", "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
+    hash_into_students(name, cohort)
   end
   file.close
 end
@@ -64,14 +77,19 @@ end
 def process(selection)
   case selection
     when "1"
-      input_students
+      puts "Input students selected"
+      adding_students
     when "2"
+      puts "Show students selected"
       show_students
     when "3"
+      puts "Save students selected"
       save_students
     when "4"
+      puts "Load Students selected"
       load_students
     when "9"
+      puts "Exit selected, this programme will now terminate"
       exit
     else 
       "I don't know what you meant, try again"
@@ -87,8 +105,10 @@ end
 
 def try_load_students
   filename = ARGV.first
-  return if filename.nil?
-  if File.exists?(filename)
+  if filename.nil?
+    load_students("students.csv")
+    puts "No file passed to the ARGV, #{@students.count} students loaded from students.csv as default"
+  elsif File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   else
