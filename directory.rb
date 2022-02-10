@@ -7,7 +7,6 @@ end
 def input_name
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  
   name = STDIN.gets.chomp
 end 
 
@@ -48,7 +47,9 @@ def show_students
 end
 
 def save_students
-  file = File.open("students.csv", "w")
+  puts "Set the filename you wish to save to"
+  filename = STDIN.gets.chomp
+  file = File.open("#{filename}", "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
@@ -57,13 +58,27 @@ def save_students
   file.close
 end
 
-def load_students(filename = "students.csv")
-  file = File.open("students.csv", "r")
+def filename_to_load
+  puts "Select the file you wish to load"
+  filename = STDIN.gets.chomp
+  loop do 
+    if File.exists?(filename)
+      return filename
+    else
+      puts "This file does not exist, please enter a valid filename"
+      filename = STDIN.gets.chomp
+    end
+  end
+end
+
+def load_students(filename_to_load = "students.csv")
+  file = File.open("#{filename_to_load}", "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
     hash_into_students(name, cohort)
   end
   file.close
+  puts "File successfully loaded"
 end
 
 def print_menu
@@ -87,7 +102,7 @@ def process(selection)
       save_students
     when "4"
       puts "Load Students selected"
-      load_students
+      load_students(filename_to_load)
     when "9"
       puts "Exit selected, this programme will now terminate"
       exit
